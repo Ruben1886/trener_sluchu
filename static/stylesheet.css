@@ -1,0 +1,151 @@
+html, body, h1 {
+  	height: 100%;
+	margin: 0;
+    font-family: 'Lato', sans-serif;
+    color: white;
+	text-align: center;
+	vertical-align: middle;
+	display: block;
+}
+h1{
+	font-size: 50px;
+}
+a{
+	text-decoration:none;
+	color: black;
+	hover: color: blue;
+}
+a:hover{
+	color: blue;
+}
+hr{
+	text-align: center;
+	width: 50%;
+}
+button{
+	opacity: 0.7;
+	border-style: double;
+	font-size: 32px;;
+	transition: 0.4s;
+	border-radius: 15px 50px;
+	font-size: 20px;
+	width: 200px;
+	height: 60px;
+}
+button:hover{
+	transition: 0.4s;
+	opacity: 1;
+	cursor: pointer;
+}
+footer{
+	height: 7%;
+	width: 100%;
+	background-color: #181917;
+	margin: 0;
+	bottom: 0;
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+
+}
+p{
+	font-size: 25px;
+	text-align: justify;
+}
+.section{
+	font-size: 350%;
+	text-align: center;
+	height: 100%;
+	margin: 0;
+}
+.box{
+	padding: 100px;
+	padding-left: 250px;
+	padding-right: 250px;
+	padding-bottom: 0px;
+}
+#login{
+	position: fixed;
+    top: 0;
+    right: 5%;
+    left: 85%;
+    height: 2.3%;
+    text-align: center;
+	background-color: #b7a596;
+	opacity: 0.7;
+    border-bottom-left-radius: 110px;  /* 100px of height + 10px of border */
+    border-bottom-right-radius: 110px; /* 100px of height + 10px of border */
+    border: 5px gray;
+    border-top: 0;
+	border-style: inset;
+}
+#start{
+	background-color: #a52c2c;
+}
+#game{
+	background-color: #5781a8;
+}
+#lol{
+	background-color: black;
+	opacity: 0.6;
+	margin: auto;
+	border: 5px outset;
+	border-color: lightblue;
+	height: 650px;
+}
+#description{
+	background-color: #87b78c;
+}
+#menu{
+	display: inline;
+}
+#jumping_arrow{padding-top: 200px;
+  display: inline-block;
+  animation-name: example;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes example {
+    0%   {margin-top: 0px;}
+    50%  {margin-top: 20px;}
+    100% {margin-top: 0px;}
+}
+#jumping_arrow:hover {
+	cursor: pointer;
+}
+
+#feedback{
+	animation-name: example2;
+  	animation-duration: 2s;
+	opacity: 0;
+}
+@keyframes example2 {
+    0%   {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+#UJ{
+	float: right;
+	width: 40%;
+	height: 40%;
+}
+#hr_gb{
+	text-align: center;
+	width: 20%;
+	background-color: red;
+	color: red;
+	border-color: gold;
+}
+#button1{
+	background-color: #a52c2c;
+}
+#button2{
+	background-color: #5781a8;;
+}
+#button3{
+	background-color: #87b78c;
+}
+#loginContainer{
+
+
+}

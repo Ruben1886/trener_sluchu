@@ -1,0 +1,21 @@
+{% if session['username'] %}
+             <button data-reset="True" onClick="get_reset($(this).data('reset'));">Zresetuj statystyki!</button>
+{% endif %}
+
+{% if session['game_mode'] == 'wysokosc' %}
+        <button onClick="playTone({{ session['dzwiekA'] }}); setTimeout(function(){playTone({{ session['dzwiekB'] }})}, 700);">Zagraj dźwięki</button>
+{% elif session['game_mode'] == 'akordy' %}
+        <button onClick="playTone(chord['{{ session['akord']}}']);">Zagraj dźwięki</button>
+{% endif %}
+
+{% if session['odpowiedzi'] %}
+    {% for x in session['odpowiedzi']%}
+        <button data-response="{{ x }}" onClick="get_response($(this).data('response'));">{{ x }}</button>
+    {% endfor %}
+{% endif %}
+
+{% if session['sprawdzenie'] %}
+    {{ session['sprawdzenie'] }}
+{% endif %}
+
+{{ session['wysokoscStat'] }}
