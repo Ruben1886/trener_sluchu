@@ -1,30 +1,28 @@
-<!--PRZYCISK RESETUJACY STATYSTYKI-->
-{% if session['username'] %}
-             <button data-reset="True" onClick="get_reset($(this).data('reset'));">Zresetuj statystyki!</button>
-{% endif %}
-
-<!--PRZYCISK GRAJACY DŹWIĘKI-->
-{% if session['game_mode'] == 'wysokosc' or session['game_mode'] == 'interwaly' %}
-        <button onClick="playTone({{ session['dzwiekA'] }}); setTimeout(function(){playTone({{ session['dzwiekB'] }})}, 700);">Zagraj dźwięki</button>
-{% elif session['game_mode'] == 'akordy' %}
-        <button onClick="playTone(chord['{{ session['akord']}}']);">Zagraj dźwięki</button>
-{% endif %}
-
-<!--ODPOWIEDZI-->
+<!--PYTANIE I ODPOWIEDZI-->
 {% if session['odpowiedzi'] %}
+        {% if session['game_mode'] == 'wysokosc' %}Drugi dźwięk w stosunku do pierwszego jest:
+        {% elif session['game_mode'] == 'interwaly' %}Jaki to interwal:
+        {% else %}Jaki to typ akordu:{% endif %}
     {% for x in session['odpowiedzi']%}
         <button data-response="{{ x }}" onClick="get_response($(this).data('response'));">{{ x }}</button>
     {% endfor %}
 {% endif %}
 
-<!--POPRAWNOSC-->
-{% if session['sprawdzenie'] %}
+<!--PRZYCISK GRAJACY DŹWIĘKI-->
+{% if session['game_mode'] == 'wysokosc' or session['game_mode'] == 'interwaly' %}
+        <button onClick="playTone({{ session['dzwiekA'] }}); setTimeout(function(){playTone({{ session['dzwiekB'] }})}, 700);">Zagraj dźwięki!</button>
+{% elif session['game_mode'] == 'akordy' %}
+        <button onClick="playTone(chord['{{ session['akord']}}']);">Zagraj akord!</button>
+{% endif %}
+
+<!--ODPOWIEDZ Z POPRAWNOSIA-->
+{% if session['sprawdzenie'] != None %}
     {{ session['sprawdzenie'] }}
 {% endif %}
 
 <!--STATYSTYKI-->
-Statystyki:
 {% if session['username'] %}
+    Statystyki:
     {% if session['game_mode'] == 'wysokosc' %}
         {% if (session['wysokoscStatPopr'] + session['wysokoscStatBled']) != 0 %}
             {{ (session['wysokoscStatPopr'] * 100 / (session['wysokoscStatPopr'] + session['wysokoscStatBled'])) | int }}%
@@ -50,4 +48,9 @@ Statystyki:
              0%
         {% endif %}
     {% endif %}
+{% endif %}
+
+<!--PRZYCISK RESETUJACY STATYSTYKI-->
+{% if session['username'] %}
+             <button data-reset="True" onClick="get_reset($(this).data('reset'));">Zresetuj statystyki!</button>
 {% endif %}

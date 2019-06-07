@@ -1,6 +1,6 @@
 #IMPORTOWANIE BIBLIOTEK
 import random
-from logic import pitchList, intervalList, chordList
+from logic import pitchList, intervalsList, chordsList
 from flask import Flask, session, request, url_for, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
@@ -36,7 +36,7 @@ def start():
     if session:
         pass
     else:
-        session['uid'] = random.randint(0,1000)
+        session['uid'] = random.randint(0, 1000)
         session['username'] = None
 
     if request.get_json() is not None:
@@ -50,11 +50,15 @@ def start():
                 session['odpowiedzi'] = ['Nizej', 'Unison', 'Wyzej']
 
             if session['game_mode'] == 'interwaly':
-                session['dzwiekA'], session['dzwiekB'] = [True, False]
-                session['odpowiedzi'] = [True, False]
+                session['odpowiedzi'] = []
+                correctAnswer, session['odpowiedzi'] = intervalsList.answer_generator(intervalsList.generate_inverals(random.randint(12, 23)), session['odpowiedzi'])
+                session['dzwiekA'], session['dzwiekB'] = correctAnswer[1][0][1], correctAnswer[1][1][1] #[nazwa interwalu][nazwy nut][czestotliwosci]
+                session['poprawnyInterwal'] = correctAnswer[0]
+                print(correctAnswer)
+                print(correctAnswer[0])
 
             if session['game_mode'] == 'akordy':
-                session['akord'] = chordList.chord_generator(random.randint(0, 16))
+                session['akord'] = chordsList.chord_generator(random.randint(0, 16))
                 session['odpowiedzi'] = ['mollowy', 'Durowy']
 
         #MECHANIZM SPRAWDZANIA ODPOWIEDZI I EDYCJI STATYSTYK W BAZIE DANYCH
@@ -74,20 +78,32 @@ def start():
                         if session['sprawdzenie'] == 'Dobrze!': session['wysokoscStatPopr'] += 1
                         elif session['sprawdzenie'] == 'Źle!': session['wysokoscStatBled'] += 1
                         db.session.commit()
+                        session['sprawdzenie'] = None
 
                 if session['game_mode'] == 'interwaly':
-                    pass
+                    if session['poprawnyInterwal'] == request.get_json().get('response'):
+                        session['sprawdzenie'] = 'Dobrze!'
+
+                        session['odpowiedzi'] = []
+                        correctAnswer, session['odpowiedzi'] = intervalsList.answer_generator(
+                        intervalsList.generate_inverals(random.randint(12, 23)), session['odpowiedzi'])
+                        session['dzwiekA'], session['dzwiekB'] = correctAnswer[1][0][1], correctAnswer[1][1][1] #[nazwa interwalu][nazwy nut][czestotliwosci]
+                        session['poprawnyInterwal'] = correctAnswer[0]
+                    else:
+                        session['sprawdzenie'] = 'Źle!'
+
                     if session['username'] is not None:
                         if session['sprawdzenie'] == 'Dobrze!': session['interwalyStatPopr'] += 1
                         elif session['sprawdzenie'] == 'Źle!': session['interwalyStatBled'] += 1
                         db.session.commit()
+                        session['sprawdzenie'] = None
 
                 if session['game_mode'] == 'akordy':
                     if (request.get_json().get('response') == 'mollowy' and (session['akord'].strip()[-1] == 'm')) or (
                          request.get_json().get('response') == 'Durowy' and (session['akord'].strip()[-1] != 'm')):
 
                             session['sprawdzenie'] = 'Dobrze!'
-                            session['akord'] = chordList.chord_generator(random.randint(0, 16))
+                            session['akord'] = chordsList.chord_generator(random.randint(0, 16))
                     else:
                             session['sprawdzenie'] = 'Źle!'
 
@@ -95,6 +111,7 @@ def start():
                         if session['sprawdzenie'] == 'Dobrze!': session['akordyStatPopr'] += 1
                         elif session['sprawdzenie'] == 'Źle!': session['akordyStatBled'] += 1
                         db.session.commit()
+                        session['sprawdzenie'] = None
 
         #RESETOWANIE STATYSTYK
         if request.get_json().get('reset') is not None:
