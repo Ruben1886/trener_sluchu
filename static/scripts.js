@@ -31,21 +31,18 @@ function get_reset(x){
 function get_logout(x){
 	ajax({logout: x});
 }
-function get_variable(x){
-	ajax({variable: x});
-}
-
-//Scrollify
-$(function() {
-    $.scrollify({
-        section : ".section",
-    });
-});
 
 //Jumping arrow
 $(function() {
     $('#jumping_arrow').click(function(){
         $.scrollify.next();
+    });
+});
+
+//Scrollify
+$(function() {
+    $.scrollify({
+        section : ".section",
     });
 });
 

@@ -1,21 +1,53 @@
+<!--PRZYCISK RESETUJACY STATYSTYKI-->
 {% if session['username'] %}
              <button data-reset="True" onClick="get_reset($(this).data('reset'));">Zresetuj statystyki!</button>
 {% endif %}
 
-{% if session['game_mode'] == 'wysokosc' %}
+<!--PRZYCISK GRAJACY DŹWIĘKI-->
+{% if session['game_mode'] == 'wysokosc' or session['game_mode'] == 'interwaly' %}
         <button onClick="playTone({{ session['dzwiekA'] }}); setTimeout(function(){playTone({{ session['dzwiekB'] }})}, 700);">Zagraj dźwięki</button>
 {% elif session['game_mode'] == 'akordy' %}
         <button onClick="playTone(chord['{{ session['akord']}}']);">Zagraj dźwięki</button>
 {% endif %}
 
+<!--ODPOWIEDZI-->
 {% if session['odpowiedzi'] %}
     {% for x in session['odpowiedzi']%}
         <button data-response="{{ x }}" onClick="get_response($(this).data('response'));">{{ x }}</button>
     {% endfor %}
 {% endif %}
 
+<!--POPRAWNOSC-->
 {% if session['sprawdzenie'] %}
     {{ session['sprawdzenie'] }}
 {% endif %}
 
-{{ session['wysokoscStat'] }}
+<!--STATYSTYKI-->
+Statystyki:
+{% if session['username'] %}
+    {% if session['game_mode'] == 'wysokosc' %}
+        {% if (session['wysokoscStatPopr'] + session['wysokoscStatBled']) != 0 %}
+            {{ (session['wysokoscStatPopr'] * 100 / (session['wysokoscStatPopr'] + session['wysokoscStatBled'])) | int }}%
+        {% elif session['wysokoscStatPopr'] != 0 %}
+             100%
+        {% elif (session['wysokoscStatPopr'] + session['wysokoscStatBled']) == 0  %}
+             0%
+        {% endif %}
+    {% elif session['game_mode'] == 'interwaly' %}
+        {% if (session['interwalyStatPopr'] + session['interwalyStatBled']) != 0 %}
+            {{ (session['interwalyStatPopr'] * 100 / (session['interwalyStatPopr'] + session['interwalyStatBled'])) | int }}%
+        {% elif session['interwalyStatPopr'] != 0 %}
+             100%
+        {% elif (session['interwalyStatPopr'] + session['interwalyStatBled']) == 0  %}
+             0%
+        {% endif %}
+    {% elif session['game_mode'] == 'akordy' %}
+        {% if (session['akordyStatPopr'] + session['akordyStatBled']) != 0 %}
+            {{ (session['akordyStatPopr'] * 100 / (session['akordyStatPopr'] + session['akordyStatBled'])) | int }}%
+        {% elif session['akordyStatPopr'] != 0 %}
+             100%
+        {% elif (session['akordyStatPopr'] + session['akordyStatBled']) == 0  %}
+             0%
+        {% endif %}
+    {% endif %}
+{% endif %}

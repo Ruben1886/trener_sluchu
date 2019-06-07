@@ -18,13 +18,18 @@ class Uzytkownik(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(20), unique=True, nullable=False)
     haslo = db.Column(db.String(20), nullable=False)
-    wysokoscStat = db.Column(db.Integer, nullable=False, default=0)
-    interwalyStat = db.Column(db.Integer, nullable=False, default=0)
-    akordyStat = db.Column(db.Integer, nullable=False, default=0)
+    wysokoscStatPopr = db.Column(db.Integer, nullable=False, default=0)
+    wysokoscStatBled = db.Column(db.Integer, nullable=False, default=0)
+    interwalyStatPopr = db.Column(db.Integer, nullable=False, default=0)
+    interwalyStatBled = db.Column(db.Integer, nullable=False, default=0)
+    akordyStatPopr = db.Column(db.Integer, nullable=False, default=0)
+    akordyStatBled = db.Column(db.Integer, nullable=False, default=0)
 
     #FUNKCJA WYSWIETLAJĄCA TABELE
     def __repr__(self):
-        return '%s %s %s %s %s' % (self.login, self.haslo, self.wysokoscStat, self.interwalyStat, self.akordyStat)
+        return '%s %s %s %s %s %s %s %s %s' % (self.id, self.login, self.haslo,
+                                                self.wysokoscStatPopr, self.wysokoscStatBled, self.interwalyStatPopr,
+                                                self.interwalyStatBled, self.akordyStatPopr, self.akordyStatBled)
 
 @app.route('/', methods=['GET', 'POST'])
 def start():
@@ -41,17 +46,18 @@ def start():
 
             #MECHANIZM ODGRYWANIA DŹWIEKÓW
             if session['game_mode'] == 'wysokosc':
-                    session['dzwiekA'], session['dzwiekB'] = pitchList.pitch_generator(random.randint(0, 35), random.randint(0, 35))
-                    session['odpowiedzi'] = ['Nizej', 'Unison', 'Wyzej']
+                session['dzwiekA'], session['dzwiekB'] = pitchList.pitch_generator(random.randint(0, 35), random.randint(0, 35))
+                session['odpowiedzi'] = ['Nizej', 'Unison', 'Wyzej']
+
+            if session['game_mode'] == 'interwaly':
+                session['dzwiekA'], session['dzwiekB'] = [True, False]
+                session['odpowiedzi'] = [True, False]
 
             if session['game_mode'] == 'akordy':
                 session['akord'] = chordList.chord_generator(random.randint(0, 16))
                 session['odpowiedzi'] = ['mollowy', 'Durowy']
 
-            if session['game_mode'] == 'interwaly':
-                pass
-
-        #MECHANIZM SPRAWDZANIA ODPOWIEDZI
+        #MECHANIZM SPRAWDZANIA ODPOWIEDZI I EDYCJI STATYSTYK W BAZIE DANYCH
         if request.get_json().get('response') is not None:
                 if session['game_mode'] == 'wysokosc':
                     if ((session['dzwiekA'] < session['dzwiekB'] and request.get_json().get('response') == 'Wyzej') or
@@ -65,16 +71,20 @@ def start():
                             session['sprawdzenie'] = 'Źle!'
 
                     if session['username'] is not None:
-                        if session['sprawdzenie'] == 'Dobrze!': session['wysokoscStat'] += 1
-                        elif session['sprawdzenie'] == 'Źle': session['wysokoscStat'] -= 1
+                        if session['sprawdzenie'] == 'Dobrze!': session['wysokoscStatPopr'] += 1
+                        elif session['sprawdzenie'] == 'Źle!': session['wysokoscStatBled'] += 1
                         db.session.commit()
 
                 if session['game_mode'] == 'interwaly':
                     pass
+                    if session['username'] is not None:
+                        if session['sprawdzenie'] == 'Dobrze!': session['interwalyStatPopr'] += 1
+                        elif session['sprawdzenie'] == 'Źle!': session['interwalyStatBled'] += 1
+                        db.session.commit()
 
                 if session['game_mode'] == 'akordy':
                     if (request.get_json().get('response') == 'mollowy' and (session['akord'].strip()[-1] == 'm')) or (
-                        request.get_json().get('response')== 'Durowy' and (session['akord'].strip()[-1] != 'm')):
+                         request.get_json().get('response') == 'Durowy' and (session['akord'].strip()[-1] != 'm')):
 
                             session['sprawdzenie'] = 'Dobrze!'
                             session['akord'] = chordList.chord_generator(random.randint(0, 16))
@@ -82,23 +92,20 @@ def start():
                             session['sprawdzenie'] = 'Źle!'
 
                     if session['username'] is not None:
-                        if session['sprawdzenie'] == 'Dobrze!': session['akordyStat'] += 1
-                        elif session['sprawdzenie'] == 'Źle': session['akordyStat'] -= 1
+                        if session['sprawdzenie'] == 'Dobrze!': session['akordyStatPopr'] += 1
+                        elif session['sprawdzenie'] == 'Źle!': session['akordyStatBled'] += 1
                         db.session.commit()
 
         #RESETOWANIE STATYSTYK
         if request.get_json().get('reset') is not None:
-            if session['game_mode'] == 'wysokosc': session['wysokoscStat'] = 0
-            elif session['game_mode'] == 'interwaly': session['interwalyStat'] = 0
-            elif session['game_mode'] == 'akordy':    session['akordyStat'] = 0
+            if session['game_mode'] == 'wysokosc': session['wysokoscStatPopr']  = session['wysokoscStatBled'] = 0
+            elif session['game_mode'] == 'interwaly': session['interwalyStatPopr'] = session['interwalyStatBled'] = 0
+            elif session['game_mode'] == 'akordy':    session['akordyStatPopr'] = session['akordyStatBled'] = 0
             db.session.commit()
 
         #MECHANIZM WYLOGOWYWANIA
         if request.get_json().get('logout') is not None:
                 session.clear()
-
-
-    #MECHANIZM SPRAWDZANIA ODPOWIEDZI I EDYCJI STATYSTYK
 
     return render_template("home.jinja2")
 
@@ -123,9 +130,13 @@ def reg():
                     db.session.add(Uzytkownik(login=uname, haslo=passw))
                     db.session.commit()
                     session['username'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().login
-                    session['wysokoscStat'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStat
-                    session['interwalyStat'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStat
-                    session['akordyStat'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStat
+                    session['wysokoscStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatPopr
+                    session['wysokoscStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatBled
+                    session['interwalyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatPopr
+                    session['interwalyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatBled
+                    session['akordyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatPopr
+                    session['akordyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatBled
+
                     return redirect(url_for("start"))
     return render_template("register.jinja2", error=error)
 
@@ -139,9 +150,12 @@ def log():
 
         if Uzytkownik.query.filter_by(login=uname, haslo=passw).first() is not None:
             session['username'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().login
-            session['wysokoscStat'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStat
-            session['interwalyStat'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStat
-            session['akordyStat'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStat
+            session['wysokoscStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatPopr
+            session['wysokoscStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatBled
+            session['interwalyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatPopr
+            session['interwalyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatBled
+            session['akordyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatPopr
+            session['akordyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatBled
             return redirect(url_for("start"))
 
         elif Uzytkownik.query.filter_by(login=uname, haslo=passw).first() is None:

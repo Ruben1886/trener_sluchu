@@ -39,7 +39,6 @@ pitchList = [
         ["B5", 987.77]  # 35 B5
     ]
 
-randomNote = random.randint(12,23)
 
 intervals = {
         "Oktawa (w dół)": [pitchList[randomNote], pitchList[randomNote - 12]],
@@ -71,8 +70,8 @@ intervals = {
         "Oktawa (w góre)": [pitchList[randomNote], pitchList[randomNote + 12]]
 }
 
-
-def answersGen(invervals, answersList):
+'''
+def interval_and_answer_generator(invervals, answersList):
         x = 0
         while x < 3:
                 if x == 0:
@@ -88,3 +87,4 @@ def answersGen(invervals, answersList):
 
         random.shuffle(answersList)
         return correct, answersList
+'''

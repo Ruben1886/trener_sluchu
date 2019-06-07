@@ -31,8 +31,8 @@
                 <input type="password" name="passw" placeholder="Hasło">
 
                 <button type="submit">Zaloguj!</button>
-                <p>Nie masz konta? <a href="/register">Zarejestruj się!</a></p>
-                <p><a href="/">Graj bez konta!</a></p>
+                <p>Nie masz konta? <a href="{{ url_for("reg")}}">Zarejestruj się!</a></p>
+                <p><a href="{{ url_for("start")}}">Graj bez konta!</a></p>
 
                 {% if error != None %}
                     {{ error }}
