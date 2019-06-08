@@ -41,11 +41,10 @@ def start():
         session['username'] = None
 
     if request.get_json() is not None:
+        session['sprawdzenie'] = None  #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO DZIALANIACH UZYTKOWNIKA
         #WYBÓR TRYBU GRY
         if request.get_json().get('game_mode') is not None:
             session['game_mode'] = request.get_json().get('game_mode')
-            session['sprawdzenie'] = None #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO ZMIANIE TRYBU GRY
-
             #MECHANIZM ODGRYWANIA DŹWIEKÓW DLA ODPOWIEDNICH TRYBOW GRY
             if session['game_mode'] == 'wysokosc':
                 session['dzwiekA'], session['dzwiekB'] = pitchList.pitch_generator(random.randint(0, 35), random.randint(0, 35))

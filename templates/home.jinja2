@@ -26,7 +26,7 @@
              <div id="login">
                  {% if session['username'] != None %}
                      {{ session['username'] }}
-                     <button id="logout" data-logout="True" onClick="get_logout($(this).data('logout'));">Wyloguj!</button>
+                     <a id="logout" data-logout="True" onClick="get_logout($(this).data('logout'));">Wyloguj!</a>
                  {% else %}
                      <a href="{{ url_for("log")}}">Zaloguj</a>
                      <a href="{{ url_for("reg")}}">Zarejestruj</a>
@@ -51,16 +51,18 @@
                     <h1>TRENING</h1>
                     <hr>
                     <div id="gameboard">
+                        <div id="game_mode_buttons">
                             <button id="button1" data-game_mode="wysokosc" onClick="get_game_mode($(this).data('game_mode'));">Wysokość</button>
                             <button id="button2" data-game_mode="interwaly" onClick="get_game_mode($(this).data('game_mode'));">Interwały</button>
                             <button id="button3" data-game_mode="akordy" onClick="get_game_mode($(this).data('game_mode'));">Akordy</button>
-                            <hr id="hr_gb">
+                        </div>
+                        <hr id="hr_gb">
                         {% if session['game_mode'] %}
                             {% include 'game_board.jinja2' %}
                         {% else %}
                             <p id="trening">Wybierz trening</p>
                         {% endif %}
-                    </div>
+                    </>
                 </div>
             </div>
 

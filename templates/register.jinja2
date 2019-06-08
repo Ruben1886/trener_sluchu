@@ -18,22 +18,18 @@
             html, body{
                 font-family: 'Lato', sans-serif;
                 color: white;
-                top: 160px;
-                left: 160px;
-                width: 800px;
-                min-height: 500px;
-                height: auto;
+                margin-top: 5%;
+                margin-left: 15%;
+                margin-right: 15%;
+                min-width: 50%;
+                min-height: 50%;
                 position: relative;
                 background-color: #b55e5e;
             }
             #registerContainer {
-                width: auto;
-                height: auto;
-                margin: 0 auto;
-                padding: 10px;
-                position: relative;
+                padding: 60px 0;
             }
-                        a{
+            a{
                 color: lightgoldenrodyellow;
                 transition: 0.4s;
                 font-weight: bold;
@@ -76,20 +72,20 @@
     </head>
 
     <body>
-        <h1>REJESTRACJA</h1>
-        <hr>
         <div id="registerContainer">
+            <h1>REJESTRACJA</h1>
+            <hr>
             <form method="POST">
                 <label for="username">Nazwa użytkownika:</label>
                 <input type="text" name="uname" placeholder="Nazwa użytkownika">
 
                 <label for="password">Hasło:</label>
-                <input id="password" type="password" name="passw" placeholder="Hasło">
+                <input type="password" name="passw" placeholder="Hasło">
 
                 <label for="password">Potwierdź hasło:</label>
-                <input id="passwConf" type="password" name="passwConf" placeholder="Potwierdź hasło">
+                <input type="password" name="passwConf" placeholder="Potwierdź hasło">
 
-                <button id="registerButton" type="submit">Zarejestruj się i zaloguj!</button>
+                <button type="submit">Zarejestruj się i zaloguj!</button>
 
                 <div id="error">
                     {% if error != None %}

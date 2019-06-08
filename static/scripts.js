@@ -30,7 +30,6 @@ function get_reset(x){
 function get_logout(x){
 	ajax({logout: x});
 }
-
 //PLUGIN Scrollify
 $(function() {
     $.scrollify({

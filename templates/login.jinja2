@@ -18,20 +18,16 @@
             html, body{
                 font-family: 'Lato', sans-serif;
                 color: white;
-                top: 160px;
-                left: 160px;
-                width: 800px;
-                min-height: 500px;
-                height: auto;
+                margin-top: 5%;
+                margin-left: 15%;
+                margin-right: 15%;
+                min-width: 50%;
+                min-height: 50%;
                 position: relative;
                 background-color: #5ea2d1;
             }
             #loginContainer{
-                width: auto;
-                height: auto;
-                margin: 0 auto;
-                padding: 10px;
-                position: relative;
+                padding: 60px 0;
             }
             a{
                 color: lightgoldenrodyellow;
@@ -54,7 +50,7 @@
             }
             button[type=submit] {
                 width: 100%;
-                background-color: gold;
+                background-color: wheat;
                 color: #5ea2d1;
                 font-size: 18px;
                 padding: 14px 20px;
@@ -66,19 +62,19 @@
                 font-weight: bold;
             }
             button[type=submit]:hover{
-                background-color: white;
+                background-color: papayawhip;
             }
             #error{
-                color: gold;
+                color: wheat;
                 font-weight: bold;
             }
         </style>
     </head>
 
     <body>
-        <h1>LOGOWANIE</h1>
-        <hr>
         <div id="loginContainer">
+            <h1>LOGOWANIE</h1>
+            <hr>
             <form method="POST">
                 <label for="username">Nazwa użytkownika:</label>
                 <input type="text" name="uname" placeholder="Nazwa użytkownika">
