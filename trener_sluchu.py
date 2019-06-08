@@ -44,15 +44,15 @@ def start():
         #WYBÓR TRYBU GRY
         if request.get_json().get('game_mode') is not None:
             session['game_mode'] = request.get_json().get('game_mode')
-            session['sprawdzenie'] = None #USTAWIENIE ODPOWIEDZI NA NONE ABY NIE ZOSTAWALA PO ZMIANIE TRYBU GRY
+            session['sprawdzenie'] = None #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO ZMIANIE TRYBU GRY
 
-            #MECHANIZM ODGRYWANIA DŹWIEKÓW
+            #MECHANIZM ODGRYWANIA DŹWIEKÓW DLA ODPOWIEDNICH TRYBOW GRY
             if session['game_mode'] == 'wysokosc':
                 session['dzwiekA'], session['dzwiekB'] = pitchList.pitch_generator(random.randint(0, 35), random.randint(0, 35))
                 session['odpowiedzi'] = ['Nizej', 'Rowny', 'Wyzej']
 
             if session['game_mode'] == 'interwaly':
-                session['odpowiedzi'] = []
+                session['odpowiedzi'] = []  # USTAWIENIE PUSTEJ LISTY Z ODPOWIEDZIAMI
                 correctAnswer, session['odpowiedzi'] = intervalsDict.answer_generator(intervalsDict.generate_inverals(random.randint(12, 23)), session['odpowiedzi'])
                 session['dzwiekA'], session['dzwiekB'] = correctAnswer[1][0][1], correctAnswer[1][1][1]#[nazwa interwalu][nazwy nut][czestotliwosci]
                 session['poprawnyInterwal'] = correctAnswer[0]
@@ -66,16 +66,14 @@ def start():
             #DLA WYSOKOSCI
             if session['game_mode'] == 'wysokosc':
                 if ((session['dzwiekA'] < session['dzwiekB'] and request.get_json().get('response') == 'Wyzej') or
-                    (session['dzwiekA'] == session['dzwiekB'] and request.get_json().get('response') == 'Rowny') or
-                    (session['dzwiekA'] > session['dzwiekB'] and request.get_json().get('response') == 'Nizej')):
-
+                            (session['dzwiekA'] == session['dzwiekB'] and request.get_json().get('response') == 'Rowny') or
+                            (session['dzwiekA'] > session['dzwiekB'] and request.get_json().get('response') == 'Nizej')):
                         session['sprawdzenie'] = 'Dobrze!'
-                        # POWTORZENIE MECHANIZMU TWORZENIA DZWIEKOW
-                        session['dzwiekA'], session['dzwiekB'] = pitchList.pitch_generator(random.randint(0, 35),
-                                                                                               random.randint(0, 35))
+                        #POWTORZENIE MECHANIZMU TWORZENIA DZWIEKOW
+                        session['dzwiekA'], session['dzwiekB'] = pitchList.pitch_generator(random.randint(0, 35), random.randint(0, 35))
                 else:
                         session['sprawdzenie'] = 'Źle!'
-
+                #EDYCJA STATYSTYK
                 if session['username'] is not None:
                     if session['sprawdzenie'] == 'Dobrze!': session['wysokoscStatPopr'] += 1
                     elif session['sprawdzenie'] == 'Źle!': session['wysokoscStatBled'] += 1
@@ -84,16 +82,14 @@ def start():
             if session['game_mode'] == 'interwaly':
                 if session['poprawnyInterwal'] == request.get_json().get('response'):
                     session['sprawdzenie'] = 'Dobrze!'
-
                     #POWTORZENIE MECHANIZMU TWORZENIA DZWIEKOW
                     session['odpowiedzi'] = []
-                    correctAnswer, session['odpowiedzi'] = intervalsDict.answer_generator(
-                    intervalsDict.generate_inverals(random.randint(12, 23)), session['odpowiedzi'])
+                    correctAnswer, session['odpowiedzi'] = intervalsDict.answer_generator(intervalsDict.generate_inverals(random.randint(12, 23)), session['odpowiedzi'])
                     session['dzwiekA'], session['dzwiekB'] = correctAnswer[1][0][1], correctAnswer[1][1][1] #[nazwa interwalu][nazwy nut][czestotliwosci]
                     session['poprawnyInterwal'] = correctAnswer[0]
                 else:
                     session['sprawdzenie'] = 'Źle!'
-
+                #EDYCJA STATYSTYK
                 if session['username'] is not None:
                     if session['sprawdzenie'] == 'Dobrze!': session['interwalyStatPopr'] += 1
                     elif session['sprawdzenie'] == 'Źle!': session['interwalyStatBled'] += 1
@@ -101,13 +97,12 @@ def start():
             #DLA AKORDOW
             if session['game_mode'] == 'akordy':
                 if (request.get_json().get('response') == 'mollowy' and (session['akord'].strip()[-1] == 'm')) or (
-                    request.get_json().get('response') == 'Durowy' and (session['akord'].strip()[-1] != 'm')):
-
+                        request.get_json().get('response') == 'Durowy' and (session['akord'].strip()[-1] != 'm')):
                     session['sprawdzenie'] = 'Dobrze!'
                     session['akord'] = chordsList.chord_generator(random.randint(0, 16))
                 else:
                     session['sprawdzenie'] = 'Źle!'
-
+                #EDYCJA STATYSTYK
                 if session['username'] is not None:
                     if session['sprawdzenie'] == 'Dobrze!': session['akordyStatPopr'] += 1
                     elif session['sprawdzenie'] == 'Źle!': session['akordyStatBled'] += 1
@@ -118,11 +113,9 @@ def start():
             elif session['game_mode'] == 'interwaly': session['interwalyStatPopr'] = session['interwalyStatBled'] = 0
             elif session['game_mode'] == 'akordy':    session['akordyStatPopr'] = session['akordyStatBled'] = 0
             db.session.commit()
-
         #MECHANIZM WYLOGOWYWANIA
         if request.get_json().get('logout') is not None:
                 session.clear()
-
     return render_template("home.jinja2")
 
 #REJESTRACJA
@@ -132,29 +125,32 @@ def reg():
     if request.method == "POST":
         uname = request.form['uname']
         passw = request.form['passw']
+        passwConf = request.form["passwConf"]
 
         #ZABEZPIECZENIA
-        if (uname == '') or (passw == ''):
-                error = "Musisz wypełnić wszystkie pola!"
-        elif len(uname) >= 20 or len(passw) >= 20:
-                error = "Zbyt długi login lub hasło (musi być krótsze niż 20 znaków)!"
-        elif len(uname) < 4 or len(passw) < 4:
-                error = "Zbyt krótki login lub hasło (minimum 4 znaki)!"
-        else:   #REJESTRACJA POMYSLNA
-                if Uzytkownik.query.filter_by(login=uname).first() is not None:
-                    error = "Login jest już zajęty!"
-                else:#TWORZENIE ZMIENNYCH SESYJNYCH POBRANIERAJACYCH WARTOSCI Z BAZY DANYCH
-                    db.session.add(Uzytkownik(login=uname, haslo=passw))
-                    db.session.commit()
-                    session['username'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().login
-                    session['wysokoscStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatPopr
-                    session['wysokoscStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatBled
-                    session['interwalyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatPopr
-                    session['interwalyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatBled
-                    session['akordyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatPopr
-                    session['akordyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatBled
-
-                    return redirect(url_for("start"))
+        if passw == passwConf:
+            if (uname == '') or (passw == ''):
+                    error = "Musisz wypełnić wszystkie pola!"
+            elif len(uname) >= 20 or len(passw) >= 20:
+                    error = "Zbyt długi login lub hasło (musi być krótsze niż 20 znaków)!"
+            elif len(uname) < 4 or len(passw) < 4:
+                    error = "Zbyt krótki login lub hasło (minimum 4 znaki)!"
+            else:   #REJESTRACJA POMYŚLNA
+                    if Uzytkownik.query.filter_by(login=uname).first() is not None:
+                        error = "Login jest już zajęty!"
+                    else:#TWORZENIE ZMIENNYCH SESYJNYCH POBIERAJACYCH WARTOSCI Z BAZY DANYCH
+                        db.session.add(Uzytkownik(login=uname, haslo=passw))
+                        db.session.commit()
+                        session['username'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().login
+                        session['wysokoscStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatPopr
+                        session['wysokoscStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().wysokoscStatBled
+                        session['interwalyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatPopr
+                        session['interwalyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().interwalyStatBled
+                        session['akordyStatPopr'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatPopr
+                        session['akordyStatBled'] = Uzytkownik.query.filter(Uzytkownik.login == uname).first().akordyStatBled
+                        return redirect(url_for("start"))
+        else:
+            error = "Hasła się nie zgadzają"
     return render_template("register.jinja2", error=error)
 
 #LOGOWANIE
@@ -181,9 +177,8 @@ def log():
             if Uzytkownik.query.filter_by(login=uname, haslo=passw).first() is not None:
                 error = "Błędne hasło"
             else:
-                error = "Nie ma takiego użytkownika"
+                error = "Nie ma takiego użytkownika!"
     return render_template("login.jinja2", error=error)
 
 if __name__ == '__main__':
-    app.run()
-    #app.run(debug=False, host='0.0.0.0', port=55101)
+    app.run(debug=False, host='0.0.0.0', port=55101)

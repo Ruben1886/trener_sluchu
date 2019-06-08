@@ -37,17 +37,18 @@ def answer_generator(intervals, answersList):
 # FUNKCJA TWORZY LISTE CORRECT[] Z NAZWĄ INTERWAŁÓW, NAZWAMI NUT, CZĘSTOTLIWOSCIAMI
 # TWORZY TEŻ LISTE CZTERECH !ODPOWIEDZI Z JEDNĄ POPRAWNĄ(CORRECT[0) A NASTĘPNIE JĄ PRZETASOWUJE
         x = 0
-        while x < 3:
+        while x <= 3:
                 if x == 0:
                         correct = random.choice(list(intervals.items()))
                         answersList.append(correct[0])
-                y = random.choice(list(intervals))
-
-                if y not in answersList:
-                        answersList.append(y)
                         x += 1
-                elif y in answersList and x != 0:
-                        x -= 1
+                y = random.choice(list(intervals))
+                if x != 0:
+                        if y not in answersList:
+                                answersList.append(y)
+                                x += 1
+                        elif y in answersList:
+                                pass
 
         random.shuffle(answersList)
         return correct, answersList

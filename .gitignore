@@ -49,4 +49,3 @@ venv/lib/python3.5/site-packages/werkzeug/contrib/__pycache__/
 venv/lib/python3.5/site-packages/werkzeug/debug/__pycache__/
 venv/lib/python3.5/site-packages/werkzeug/middleware/__pycache__/
 venv/lib/python3.5/site-packages/werkzeug/wrappers/__pycache__/
-stat.db

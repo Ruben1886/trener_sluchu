@@ -1,14 +1,16 @@
-//AJAX and sending functions:
+//AJAX I JEGO FUNKCJE WYSYLAJĄCE:
 function ajax(object){
     $.ajax({
-        url: '/', /*w ktorej sciezce routowania to odpieramy*/
+        url: '/', /*W KTOREJ SCIEZCE ROUTOWANIE TO ODBIERAMY*/
         type: 'POST',
-        dataType:'text', /*oczekiwane dane*/
-        contentType: 'application/json', /*dane do wysylki $('#lol').load('/' + ' #lol'); */
+        dataType:'text', /*JAKI TYP DANYCH JEST OCZEKIWANY*/
+        contentType: 'application/json',
         data:JSON.stringify(object),
         success: function()
         {
-            console.log('succes');
+        	$('#gameboard').load('/' + ' #gameboard'); /*ODSWIEZENIE STRONY W PRZYPADKU SUCCESU*/
+			$('#login').load('/' + ' #login'); /*ODSWIEZENIE PASKA LOGOWANIA*/
+            console.log(object);
         },
         error: function(err, s , exception)
         {
@@ -29,21 +31,21 @@ function get_logout(x){
 	ajax({logout: x});
 }
 
-//Jumping arrow
-$(function() {
-    $('#jumping_arrow').click(function(){
-        $.scrollify.next();
-    });
-});
-
-//Scrollify
+//PLUGIN Scrollify
 $(function() {
     $.scrollify({
         section : ".section",
     });
 });
 
-//Preventing spaces in login an registration form
+//PODSKAKUJĄCA STRZAŁKA Z PLUGINEM Scrollify
+$(function() {
+    $('#jumping_arrow').click(function(){
+        $.scrollify.next();
+    });
+});
+
+//ZABEZPIECZENIE PRZED WPISYANIEM SPACJI W LOGOWANIU I REJESTRACJI
 $(function() {
     $('input').on('keypress', function(e) {
         if (e.which == 32)
@@ -51,7 +53,7 @@ $(function() {
     });
 });
 
-//simpleTones.JS
+//PLUGIN simpleTones.JS
 //Create Audio Context
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
