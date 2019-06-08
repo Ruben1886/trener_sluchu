@@ -2,7 +2,7 @@ import random
 from logic.pitchList import pitchList
 
 def generate_inverals(randomNote):
-        intervals = {
+        intervalsDict = {
                 "Oktawa (w dół)": [pitchList[randomNote], pitchList[randomNote - 12]],
                 "Septyma wielka (w dół)": [pitchList[randomNote], pitchList[randomNote - 11]],
                 "Septyma mała (w dół)": [pitchList[randomNote], pitchList[randomNote - 10]],
@@ -31,7 +31,7 @@ def generate_inverals(randomNote):
                 "Septyma wielka (w góre)": [pitchList[randomNote], pitchList[randomNote + 11]],
                 "Oktawa (w góre)": [pitchList[randomNote], pitchList[randomNote + 12]]
         }
-        return intervals
+        return intervalsDict
 
 def answer_generator(intervals, answersList):
 # FUNKCJA TWORZY LISTE CORRECT[] Z NAZWĄ INTERWAŁÓW, NAZWAMI NUT, CZĘSTOTLIWOSCIAMI
@@ -46,7 +46,7 @@ def answer_generator(intervals, answersList):
                 if y not in answersList:
                         answersList.append(y)
                         x += 1
-                elif y in answersList:
+                elif y in answersList and x != 0:
                         x -= 1
 
         random.shuffle(answersList)

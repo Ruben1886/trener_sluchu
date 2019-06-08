@@ -18,13 +18,12 @@
                 background-color: #87b78c;
             }
         </style>
-
     </head>
 
     <body>
         <div id="registerContainer">
             <form method="POST">
-                <label for="username">Nazwa użytkownika: </label>
+                <label for="username">Nazwa użytkownika:</label>
                 <input type="text" name="uname" placeholder="Nazwa użytkownika">
 
                 <label for="password">Hasło:</label>
@@ -35,10 +34,9 @@
                 <p>Masz już konto? <a href="{{ url_for("log")}}">Zaloguj się!</a></p>
                 <p><a href="{{ url_for("start")}}">Graj bez konta!</a></p>
 
-                 {% if error != None %}
+                {% if error != None %}
                     {{ error }}
                 {% endif %}
-
             </form>
         </div>
     </body>

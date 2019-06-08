@@ -48,6 +48,8 @@
              0%
         {% endif %}
     {% endif %}
+{% else %}
+    <a href="{{ url_for("log") }}">Zaloguj się</a>aby monitorować statystyki
 {% endif %}
 
 <!--PRZYCISK RESETUJACY STATYSTYKI-->

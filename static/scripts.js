@@ -16,11 +16,8 @@ function ajax(object){
         }
     });
 }
-function get_game_mode(x){
-    ajax( {game_mode: x});
-}
-function get_play(x){
-    ajax({play: x});
+function get_game_mode(x) {
+	ajax({game_mode: x});
 }
 function get_response(x){
     ajax({response: x});
