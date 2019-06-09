@@ -1,83 +1,41 @@
 html, body, h1 {
-  	height: 100%;
-	margin: 0;
-    font-family: 'Lato', sans-serif;
-    color: white;
+	font-family: 'Lato', sans-serif;
 	text-align: center;
-	vertical-align: middle;
-	display: block;
+	margin: 0;
+    color: white;
 }
 h1{
 	font-size: 50px;
 }
+p{
+	font-size: 25px;
+	text-align: justify;
+}
 a{
-	text-decoration:none;
-	color: black;
-	transition: 0.4s;
 	cursor: pointer;
+	text-decoration: none;
+	transition: 0.4s;
 }
 a:hover{
 	color: white;
 	transition: 0.4s;
 }
 hr{
-	text-align: center;
 	width: 50%;
 }
-button{
-	opacity: 0.7;
-	border-style: double;
-	font-size: 32px;;
-	transition: 0.4s;
-	border-radius: 15px 50px;
-	font-size: 20px;
-	width: 200px;
-	height: 60px;
-}
-button:hover{
-	transition: 0.4s;
-	opacity: 1;
-	cursor: pointer;
-}
-#logout{
-	width: 20%;
-	height: 60%;
-}
-footer{
-	height: 7%;
+.hr_on_gameboard{
 	width: 100%;
-	background-color: #181917;
-	margin: 0;
-	bottom: 0;
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
-}
-p{
-	font-size: 25px;
-	text-align: justify;
-}
-.section{
-	font-size: 350%;
-	text-align: center;
-	height: 100%;
-	margin: 0;
-}
-.box{
-	padding: 100px;
-	padding-left: 250px;
-	padding-right: 250px;
-	padding-bottom: 0px;
+	border-color: gold;
 }
 #login{
 	position: fixed;
     top: 0;
-    right: 5%;
-    left: 85%;
-    height: 2.3%;
-	font-size: 80%;
+    right: 45%;
+    left: 45%;
+    height: 3%;
+	font-size: 100%;
     text-align: center;
-	background-color: #b7a596;
+	background-color: wheat;
 	opacity: 0.7;
     border-bottom-left-radius: 110px;  /* 100px of height + 10px of border */
     border-bottom-right-radius: 110px; /* 100px of height + 10px of border */
@@ -85,63 +43,86 @@ p{
     border-top: 0;
 	border-style: inset;
 }
+#logout{
+	width: 20%;
+	height: 60%;
+}
+.section{
+	font-size: 350%;
+	text-align: center;
+	height: 100%;
+}
+.box{
+	padding: 60px 0;
+	color: white;
+	margin-left: 15%;
+	margin-right: 15%;
+	min-width: 50%;
+	min-height: 50%;
+	position: relative;
+}
 #start{
 	background-color: #a52c2c;
 }
 #game{
-	background-color: #5781a8;
-}
-#lol{
-	background-color: black;
-	opacity: 0.6;
-	margin: auto;
-	border: 5px outset;
-	border-color: lightblue;
-	height: 650px;
+	background-color: #5ea2d1;
 }
 #description{
-	background-color: #87b78c;
+	background-color: #85c18c;
 }
-#menu{
-	display: inline;
+footer{
+	height: 7vh;
+	width: 100%;
+	background-color: #181917;
+	margin: 0;
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
 }
-#jumping_arrow{padding-top: 200px;
-  display: inline-block;
-  animation-name: example;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-}
-@keyframes example {
-    0%   {margin-top: 0px;}
-    50%  {margin-top: 20px;}
-    100% {margin-top: 0px;}
+#jumping_arrow{
+	padding-top: 150px;
+  	display: inline-block;
+  	animation-name: jump;
+  	animation-duration: 2s;
+  	animation-iteration-count: infinite;
 }
 #jumping_arrow:hover {
 	cursor: pointer;
 }
+@keyframes jump {
+    0%   {margin-top: 0px;}
+    50%  {margin-top: 20px;}
+    100% {margin-top: 0px;}
+}
 #feedback{
-	animation-name: example2;
+	animation-name: disappering;
   	animation-duration: 2s;
 	opacity: 0;
 }
-@keyframes example2 {
+@keyframes disappering {
     0%   {opacity: 1;}
     100% {opacity: 0;}
 }
 #UJ{
-	float: right;
-	width: 40%;
-	height: 40%;
+	padding-top: 50px;
+	width: 55%;
+	height: 55%;
 }
-#hr_gb{
-	text-align: center;
-	width: 20%;
-	background-color: red;
-	color: red;
-	border-color: gold;
-}
-#game_mode_buttons{
 
+/*GAMEBOARD*/
+#gameboard{
+	background-color: black;
+	text-align: center;
+	font-size: 50%;
+	opacity: 0.6;
+	border: 3px;
+	border-style: outset;
+	border-radius: 2px;
+	height: 55vh;
+}
+.game_mode_buttons{
+
+	text-align: center;
 }
 #button1{
 	background-color: #a52c2c;
@@ -152,12 +133,8 @@ p{
 #button3{
 	background-color: #87b78c;
 }
-#gameboard{
-	border-style: outset;
-	border-radius: 10px;
-	background-color: black;
-	opacity: 0.3;
-}
-#pytanie{
-	font-size: 4px;
+button:hover{
+	transition: 0.4s;
+	opacity: 1;
+	cursor: pointer;
 }

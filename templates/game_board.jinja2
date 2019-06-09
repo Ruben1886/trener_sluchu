@@ -1,23 +1,27 @@
-<!--PYTANIE I ODPOWIEDZI-->
-{% if session['odpowiedzi'] %}
-        {% if session['game_mode'] == 'wysokosc' %}<p id="pytanie">Drugi dźwięk w stosunku do pierwszego jest:</p>
-        {% elif session['game_mode'] == 'interwaly' %}Jaki to interwal:
-        {% else %}Jaki to typ akordu:{% endif %}
-    {% for x in session['odpowiedzi']%}
-        <button data-response="{{ x }}" onClick="get_response($(this).data('response'));">{{ x }}</button>
-    {% endfor %}
-{% endif %}
-
 <!--PRZYCISK GRAJACY DŹWIĘKI-->
 {% if session['game_mode'] == 'wysokosc' or session['game_mode'] == 'interwaly' %}
-        <button onClick="playTone({{ session['dzwiekA'] }}); setTimeout(function(){playTone({{ session['dzwiekB'] }})}, 700);">Zagraj dźwięki!</button>
+    <button onClick="playTone({{ session['dzwiekA'] }}); setTimeout(function(){playTone({{ session['dzwiekB'] }})}, 700);">Zagraj dźwięki!</button>
 {% elif session['game_mode'] == 'akordy' %}
-        <button onClick="playTone(chord['{{ session['akord']}}']);">Zagraj akord!</button>
+    <button onClick="playTone(chord['{{ session['akord']}}']);">Zagraj akord!</button>
 {% endif %}
 
+<!--PYTANIA-->
+{% if session['odpowiedzi'] %}
+    {% if session['game_mode'] == 'wysokosc' %}Drugi dźwięk w stosunku do pierwszego jest:
+    {% elif session['game_mode'] == 'interwaly' %}Jaki to interwal:
+    {% else %}Jaki to typ akordu:
+    {% endif %}
+{% endif %}
+
+<!--ODPOWIEDZI-->
+{% for x in session['odpowiedzi']%}
+    <button class="odpowiedzi" data-response="{{ x }}" onClick="get_response($(this).data('response'));">{{ x }}</button>
+{% endfor %}
+
+<hr class="hr_on_gameboard">
 <!--ODPOWIEDZ Z POPRAWNOSIA-->
 {% if session['sprawdzenie'] != None %}
-    <div id="feedback">{{ session['sprawdzenie'] }}</div>
+    {{ session['sprawdzenie'] }}
 {% endif %}
 
 <!--STATYSTYKI-->
@@ -27,32 +31,36 @@
         {% if (session['wysokoscStatPopr'] + session['wysokoscStatBled']) != 0 %}
             {{ (session['wysokoscStatPopr'] * 100 / (session['wysokoscStatPopr'] + session['wysokoscStatBled'])) | int }}%
         {% elif session['wysokoscStatPopr'] != 0 %}
-             100%
+            100%
         {% elif (session['wysokoscStatPopr'] + session['wysokoscStatBled']) == 0  %}
-             0%
+            0%
         {% endif %}
     {% elif session['game_mode'] == 'interwaly' %}
         {% if (session['interwalyStatPopr'] + session['interwalyStatBled']) != 0 %}
             {{ (session['interwalyStatPopr'] * 100 / (session['interwalyStatPopr'] + session['interwalyStatBled'])) | int }}%
         {% elif session['interwalyStatPopr'] != 0 %}
-             100%
+            100%
         {% elif (session['interwalyStatPopr'] + session['interwalyStatBled']) == 0  %}
-             0%
+            0%
         {% endif %}
     {% elif session['game_mode'] == 'akordy' %}
         {% if (session['akordyStatPopr'] + session['akordyStatBled']) != 0 %}
             {{ (session['akordyStatPopr'] * 100 / (session['akordyStatPopr'] + session['akordyStatBled'])) | int }}%
         {% elif session['akordyStatPopr'] != 0 %}
-             100%
+                 100%
         {% elif (session['akordyStatPopr'] + session['akordyStatBled']) == 0  %}
-             0%
+                 0%
         {% endif %}
+
     {% endif %}
 {% else %}
-    <a href="{{ url_for("log") }}">Zaloguj się</a>aby monitorować statystyki
+    <a href="{{ url_for("log") }}">Zaloguj się</a> aby monitorować statystyki
 {% endif %}
 
 <!--PRZYCISK RESETUJACY STATYSTYKI-->
 {% if session['username'] %}
-             <button data-reset="True" onClick="get_reset($(this).data('reset'));">Zresetuj statystyki!</button>
+    <button id="reset" data-reset="True" onClick="get_reset($(this).data('reset'));">Zresetuj statystyki!</button>
 {% endif %}
+
+
+

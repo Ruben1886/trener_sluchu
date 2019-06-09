@@ -8,8 +8,8 @@ function ajax(object){
         data:JSON.stringify(object),
         success: function()
         {
-        	$('#gameboard').load('/' + ' #gameboard'); /*ODSWIEZENIE STRONY W PRZYPADKU SUCCESU*/
-			$('#login').load('/' + ' #login'); /*ODSWIEZENIE PASKA LOGOWANIA*/
+        	 /*ODSWIEZENIE STRONY W PRZYPADKU SUCCESU $('#gameboard').load('/' + ' #gameboard');*/
+			 /*ODSWIEZENIE PASKA LOGOWANIA $('#login').load('/' + ' #login');*/
             console.log(object);
         },
         error: function(err, s , exception)

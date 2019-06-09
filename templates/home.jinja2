@@ -51,18 +51,16 @@
                     <h1>TRENING</h1>
                     <hr>
                     <div id="gameboard">
-                        <div id="game_mode_buttons">
-                            <button id="button1" data-game_mode="wysokosc" onClick="get_game_mode($(this).data('game_mode'));">Wysokość</button>
-                            <button id="button2" data-game_mode="interwaly" onClick="get_game_mode($(this).data('game_mode'));">Interwały</button>
-                            <button id="button3" data-game_mode="akordy" onClick="get_game_mode($(this).data('game_mode'));">Akordy</button>
-                        </div>
-                        <hr id="hr_gb">
+                            <button id="button1" class="game_mode_buttons" data-game_mode="wysokosc" onClick="get_game_mode($(this).data('game_mode'));">Wysokość</button>
+                            <button id="button2" class="game_mode_buttons" data-game_mode="interwaly" onClick="get_game_mode($(this).data('game_mode'));">Interwały</button>
+                            <button id="button3" class="game_mode_buttons" data-game_mode="akordy" onClick="get_game_mode($(this).data('game_mode'));">Akordy</button>
+                        <hr class="hr_on_gameboard">
                         {% if session['game_mode'] %}
                             {% include 'game_board.jinja2' %}
                         {% else %}
-                            <p id="trening">Wybierz trening</p>
+                            Wybierz trening
                         {% endif %}
-                    </>
+                    </div>
                 </div>
             </div>
 
@@ -71,8 +69,8 @@
                     <h1>O PRACY</h1>
                     <hr>
                     <p>Aplikacja jest pracą dyplomową zwięczającą studia licencjackie na kierunku "Elektronicznie Przetwarzanie Informacji" na Uniwersytecie Jagiellońskim.
-                        Promotorem pracy jest dr hab. Grzegorz Biliński prof. ASP. Projekt został napisany w języku Python z wykorzystując przy tym microframework Flask oraz bilbiotekę simpleTones.js, a także baze
-                        danych SQLite.</p>
+                        Promotorem pracy jest dr hab. Grzegorz Biliński prof. ASP. Projekt został napisany w języku Python z wykorzystując przy tym microframework Flask
+                        oraz bilbiotekę simpleTones.js, a także baze danych SQLite.</p>
                     <p>Autor: Tomasz Walasik</p>
                     <p>Kontakt: twalasik7@gmail.com</p>
                     <img id="UJ" src="../static/images/UJ_logo.png">
