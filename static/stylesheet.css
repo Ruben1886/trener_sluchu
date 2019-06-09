@@ -188,16 +188,20 @@ button:hover{
 		transition: 0.4s;
 		font-size: 13px;
 		border-radius: 15px 50px;
-}
-.game_mode_buttons{
-	 width: 80px;
- }
-.playButton{
-	width: 100px;
-}
-#UJ{
-	float: none;
-}
-#gameboard p{
-	font-size: 20px;
+	}
+	.game_mode_buttons{
+		 width: 80px;
+	 }
+	.playButton{
+		width: 100px;
+	}
+	#UJ{
+		float: none;
+	}
+	#gameboard p{
+		font-size: 20px;
+	}
+	#jumping_arrow{
+  	animation-name: none;
+	}
 }
