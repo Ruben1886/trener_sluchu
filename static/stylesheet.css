@@ -99,12 +99,12 @@ footer{
 	background-color: rgb(20,20,20);
 	width: 100%;
 	height: 50px;
+	font-size: 14px;
 }
 #footerText{
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
-
 /*GAMEBOARD*/
 #gameboard{
 	background-color: black;
@@ -156,7 +156,7 @@ button{
 	font-size: 80px;
 }
 #choice{
-	height: 5px;
+	height: 25px;
 }
 button:hover{
 	transition: 0.4s;
@@ -201,7 +201,10 @@ button:hover{
 	#gameboard p{
 		font-size: 20px;
 	}
-	#jumping_arrow{
-  	animation-name: none;
+	#jumping_arrow:hover{
+		cursor: default;
+	}
+	@keyframes jump {
+    0%   {margin-top: 0px;}
 	}
 }
