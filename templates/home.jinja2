@@ -22,20 +22,21 @@
 	</head>
 
     <body>
-    <div id ="main">
              <div id="login">
+                <div id="load_login">
                  {% if session['username'] != None %}
                      {{ session['username'] }}
-                     <a id="logout" data-logout="True" onClick="get_logout($(this).data('logout'));">Wyloguj!</a>
+                     <a data-logout="True" onClick="get_logout($(this).data('logout'));">Wyloguj!</a>
                  {% else %}
                      <a href="{{ url_for("log")}}">Zaloguj</a>
                      <a href="{{ url_for("reg")}}">Zarejestruj</a>
                  {% endif %}
+                </div>
              </div>
 
             <div class="section" id="start">
                 <div class="box">
-                    <h1>TRENER SŁUCHU RELATYWNEGO</h1>
+                    <h1>TRENER SŁUCHU</h1>
                     <hr>
                     <p>Trener słuchu relatywnego to aplikacja, która pomaga muzykom w kształceniu słuchu na różnym poziomie edukacji. Oprócz tradycyjnego rozpoznawania wysokości dźwięku i interwałów, aplikacja
                     pomaga ćwiczyć rozpoznawanie typów akordów. Po zalogowaniu użytkownik może monitorować swoje statystyki w obrębie danego ćwiczenia.</p>
@@ -48,37 +49,43 @@
 
             <div class="section" id="game">
                 <div class="box">
-                    <h1>TRENING</h1>
-                    <hr>
-                    <div id="gameboard">
-                            <button id="button1" class="game_mode_buttons" data-game_mode="wysokosc" onClick="get_game_mode($(this).data('game_mode'));">Wysokość</button>
-                            <button id="button2" class="game_mode_buttons" data-game_mode="interwaly" onClick="get_game_mode($(this).data('game_mode'));">Interwały</button>
-                            <button id="button3" class="game_mode_buttons" data-game_mode="akordy" onClick="get_game_mode($(this).data('game_mode'));">Akordy</button>
-                        <hr class="hr_on_gameboard">
-                        {% if session['game_mode'] %}
-                            {% include 'game_board.jinja2' %}
-                        {% else %}
-                            Wybierz trening
-                        {% endif %}
-                    </div>
+                        <h1>TRENING</h1>
+                        <hr>
+                        <div id="gameboard">
+                                <button id="button1" class="game_mode_buttons" data-game_mode="wysokosc" onClick="get_game_mode($(this).data('game_mode'));">Wysokość</button>
+                                <button id="button2" class="game_mode_buttons" data-game_mode="interwaly" onClick="get_game_mode($(this).data('game_mode'));">Interwały</button>
+                                <button id="button3" class="game_mode_buttons" data-game_mode="akordy" onClick="get_game_mode($(this).data('game_mode'));">Akordy</button>
+                            <hr class="hr_on_gameboard">
+                            <div id="load">
+                                {% if session['game_mode'] %}
+                                    {% include 'game_board.jinja2' %}
+                                {% else %}
+                                    <p id="choice">Wybierz trening</p>
+                                {% endif %}
+                            </div>
+                            <div class="resize">
+                            </div>
+                        </div>
                 </div>
             </div>
 
             <div class="section" id="description">
                 <div class="box">
-                    <h1>O PRACY</h1>
-                    <hr>
-                    <p>Aplikacja jest pracą dyplomową zwięczającą studia licencjackie na kierunku "Elektronicznie Przetwarzanie Informacji" na Uniwersytecie Jagiellońskim.
-                        Promotorem pracy jest dr hab. Grzegorz Biliński prof. ASP. Projekt został napisany w języku Python z wykorzystując przy tym microframework Flask
-                        oraz bilbiotekę simpleTones.js, a także baze danych SQLite.</p>
-                    <p>Autor: Tomasz Walasik</p>
-                    <p>Kontakt: twalasik7@gmail.com</p>
-                    <img id="UJ" src="../static/images/UJ_logo.png">
+                    <div class="resize"></div>
+                        <h1>O PRACY</h1>
+                        <hr>
+                        <p>Aplikacja jest pracą dyplomową zwięczającą studia licencjackie na kierunku "Elektronicznie Przetwarzanie Informacji" na Uniwersytecie Jagiellońskim.
+                            Promotorem pracy jest dr hab. Grzegorz Biliński prof. ASP. Projekt został napisany w języku Python wykorzystując przy tym microframework Flask
+                            oraz bilbiotekę simpleTones.js, a także baze danych SQLite.</p>
+                        <p>Autor: Tomasz Walasik</p>
+                        <p>Kontakt: twalasik7@gmail.com</p>
+                        <img id="UJ" src="../static/images/UJ_logo.png">
                 </div>
             </div>
-    </div>
-			<footer>
- 				Prawa autorskie zastrzeżone © Uniwersytet Jagielloński 2019
-			</footer>
+            <footer>
+                <div id="footerText">
+                    Prawa autorskie zastrzeżone Uniwerstet Jagiellonski  © 2019
+                </div>
+            </footer>
 	</body>
 </html>

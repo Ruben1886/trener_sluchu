@@ -41,7 +41,7 @@ def start():
         session['username'] = None
 
     if request.get_json() is not None:
-        session['sprawdzenie'] = None  #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO DZIALANIACH UZYTKOWNIKA
+        session['sprawdzenie'] = 'Wybierz odpowiedź!' #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO DZIALANIACH UZYTKOWNIKA
         #WYBÓR TRYBU GRY
         if request.get_json().get('game_mode') is not None:
             session['game_mode'] = request.get_json().get('game_mode')
@@ -74,8 +74,12 @@ def start():
                         session['sprawdzenie'] = 'Źle!'
                 #EDYCJA STATYSTYK
                 if session['username'] is not None:
-                    if session['sprawdzenie'] == 'Dobrze!': session['wysokoscStatPopr'] += 1
-                    elif session['sprawdzenie'] == 'Źle!': session['wysokoscStatBled'] += 1
+                    if session['sprawdzenie'] == 'Dobrze!':
+                        session['wysokoscStatPopr'] += 1
+                        Uzytkownik.query.filter_by(login=session['username']).first().wysokoscStatPopr += 1
+                    elif session['sprawdzenie'] == 'Źle!':
+                        Uzytkownik.query.filter_by(login=session['username']).first().wysokoscStatBled += 1
+                        session['wysokoscStatBled'] += 1
                     db.session.commit()
             #DLA INTERWALOW
             if session['game_mode'] == 'interwaly':
@@ -90,8 +94,12 @@ def start():
                     session['sprawdzenie'] = 'Źle!'
                 #EDYCJA STATYSTYK
                 if session['username'] is not None:
-                    if session['sprawdzenie'] == 'Dobrze!': session['interwalyStatPopr'] += 1
-                    elif session['sprawdzenie'] == 'Źle!': session['interwalyStatBled'] += 1
+                    if session['sprawdzenie'] == 'Dobrze!':
+                        Uzytkownik.query.filter_by(login=session['username']).first().interwalyStatPopr += 1
+                        session['interwalyStatPopr'] += 1
+                    elif session['sprawdzenie'] == 'Źle!':
+                        session['interwalyStatBled'] += 1
+                        Uzytkownik.query.filter_by(login=session['username']).first().interwalyStatBled += 1
                     db.session.commit()
             #DLA AKORDOW
             if session['game_mode'] == 'akordy':
@@ -103,14 +111,24 @@ def start():
                     session['sprawdzenie'] = 'Źle!'
                 #EDYCJA STATYSTYK
                 if session['username'] is not None:
-                    if session['sprawdzenie'] == 'Dobrze!': session['akordyStatPopr'] += 1
-                    elif session['sprawdzenie'] == 'Źle!': session['akordyStatBled'] += 1
+                    if session['sprawdzenie'] == 'Dobrze!':
+                        Uzytkownik.query.filter_by(login=session['username']).first().akordyStatPopr += 1
+                        session['akordyStatPopr'] += 1
+                    elif session['sprawdzenie'] == 'Źle!':
+                        Uzytkownik.query.filter_by(login=session['username']).first().akordyStatBled += 1
+                        session['akordyStatBled'] += 1
                     db.session.commit()
         #RESETOWANIE STATYSTYK
         if request.get_json().get('reset') is not None:
             if session['game_mode'] == 'wysokosc': session['wysokoscStatPopr']  = session['wysokoscStatBled'] = 0
             elif session['game_mode'] == 'interwaly': session['interwalyStatPopr'] = session['interwalyStatBled'] = 0
             elif session['game_mode'] == 'akordy':    session['akordyStatPopr'] = session['akordyStatBled'] = 0
+            Uzytkownik.query.filter_by(login=session['username']).first().wysokoscStatPopr = 0
+            Uzytkownik.query.filter_by(login=session['username']).first().wysokoscStatBled = 0
+            Uzytkownik.query.filter_by(login=session['username']).first().interwalyStatPopr = 0
+            Uzytkownik.query.filter_by(login=session['username']).first().interwalyStatBled = 0
+            Uzytkownik.query.filter_by(login=session['username']).first().akordyStatPopr = 0
+            Uzytkownik.query.filter_by(login=session['username']).first().akordyStatBled = 0
             db.session.commit()
         #MECHANIZM WYLOGOWYWANIA
         if request.get_json().get('logout') is not None:
@@ -130,8 +148,8 @@ def reg():
         if passw == passwConf:
             if (uname == '') or (passw == ''):
                     error = "Musisz wypełnić wszystkie pola!"
-            elif len(uname) >= 20 or len(passw) >= 20:
-                    error = "Zbyt długi login lub hasło (musi być krótsze niż 20 znaków)!"
+            elif len(uname) >= 10 or len(passw) >= 10:
+                    error = "Zbyt długi login lub hasło (musi być krótsze niż 11 znaków)!"
             elif len(uname) < 4 or len(passw) < 4:
                     error = "Zbyt krótki login lub hasło (minimum 4 znaki)!"
             else:   #REJESTRACJA POMYŚLNA

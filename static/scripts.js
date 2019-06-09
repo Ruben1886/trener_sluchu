@@ -8,8 +8,12 @@ function ajax(object){
         data:JSON.stringify(object),
         success: function()
         {
-        	 /*ODSWIEZENIE STRONY W PRZYPADKU SUCCESU $('#gameboard').load('/' + ' #gameboard');*/
-			 /*ODSWIEZENIE PASKA LOGOWANIA $('#login').load('/' + ' #login');*/
+        	 /*ODSWIEZENIE Game_boardu W PRZYPADKU SUCCESU*/
+        	 $('#load').load('/' + ' #load');
+			 /*ODSWIEZENIE PASKA LOGOWANIA */
+			 $('#load_login').load('/' + ' #load_login');
+
+			 $('.resize').load('/' + ' .resize');
             console.log(object);
         },
         error: function(err, s , exception)
@@ -32,9 +36,11 @@ function get_logout(x){
 }
 //PLUGIN Scrollify
 $(function() {
-    $.scrollify({
-        section : ".section",
-    });
+	if ($(window).width() >= 1000) {
+		$.scrollify({
+			section: ".section",
+		});
+	} else {}
 });
 
 //PODSKAKUJĄCA STRZAŁKA Z PLUGINEM Scrollify

@@ -1,4 +1,7 @@
-html, body, h1 {
+html {
+	overflow-x: hidden;
+}
+body{
 	font-family: 'Lato', sans-serif;
 	text-align: center;
 	margin: 0;
@@ -15,51 +18,48 @@ a{
 	cursor: pointer;
 	text-decoration: none;
 	transition: 0.4s;
+	color: darkslategrey;
 }
 a:hover{
-	color: white;
+	color: black;
 	transition: 0.4s;
+}
+a:visited {
+	color: darkslategrey;
 }
 hr{
 	width: 50%;
+
 }
 .hr_on_gameboard{
 	width: 100%;
-	border-color: gold;
+	border-color: goldenrod;
 }
 #login{
 	position: fixed;
     top: 0;
-    right: 45%;
-    left: 45%;
-    height: 3%;
-	font-size: 100%;
+    height: 1.5vw;
+	width: 12.5vw;
+	margin-left: 75%;
+	font-size: 13px;
     text-align: center;
 	background-color: wheat;
 	opacity: 0.7;
-    border-bottom-left-radius: 110px;  /* 100px of height + 10px of border */
-    border-bottom-right-radius: 110px; /* 100px of height + 10px of border */
     border: 5px gray;
     border-top: 0;
 	border-style: inset;
-}
-#logout{
-	width: 20%;
-	height: 60%;
+	border-radius: 0 0 35px 35px;
+	z-index: 1;
+	color: darkslategrey;
 }
 .section{
 	font-size: 350%;
 	text-align: center;
-	height: 100%;
 }
 .box{
-	padding: 60px 0;
-	color: white;
+	padding: 40px 0;
 	margin-left: 15%;
 	margin-right: 15%;
-	min-width: 50%;
-	min-height: 50%;
-	position: relative;
 }
 #start{
 	background-color: #a52c2c;
@@ -70,17 +70,7 @@ hr{
 #description{
 	background-color: #85c18c;
 }
-footer{
-	height: 7vh;
-	width: 100%;
-	background-color: #181917;
-	margin: 0;
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
-}
 #jumping_arrow{
-	padding-top: 150px;
   	display: inline-block;
   	animation-name: jump;
   	animation-duration: 2s;
@@ -97,44 +87,117 @@ footer{
 #feedback{
 	animation-name: disappering;
   	animation-duration: 2s;
-	opacity: 0;
 }
 @keyframes disappering {
-    0%   {opacity: 1;}
-    100% {opacity: 0;}
+    0%   {opacity: 0.5;}
+    100% {opacity: 1;}
 }
-#UJ{
-	padding-top: 50px;
-	width: 55%;
-	height: 55%;
+footer{
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align: center;
+	background-color: rgb(20,20,20);
+	width: 100%;
+	height: 50px;
+}
+#footerText{
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 /*GAMEBOARD*/
 #gameboard{
 	background-color: black;
-	text-align: center;
-	font-size: 50%;
-	opacity: 0.6;
-	border: 3px;
-	border-style: outset;
+	opacity: 0.7;
+	border: 5px outset;
 	border-radius: 2px;
-	height: 55vh;
+	border-color: goldenrod;
+}
+#gameboard p{
+	font-size: 28px;
+	text-align: center;
+}
+button{
+	border: 2px;
+	border-radius: 25px;
+	height: 55px;
+	width: 225px;
+	background-color: goldenrod;
+	border-color: darkgoldenrod;
+	border-style: inset;
+	transition: 0.4s;
+	font-size: 18px;
+	border-radius: 15px 50px;
 }
 .game_mode_buttons{
-
-	text-align: center;
+	 width: 150px;
+ }
+.playButton{
+	width: 100px;
+}
+.odpowiedzi{
+	background-color: peachpuff;
+	border-color: palegoldenrod;
 }
 #button1{
-	background-color: #a52c2c;
+	background-color: #5780a8;
+	border-color: #5780a8;
 }
 #button2{
-	background-color: #5781a8;;
+	background-color: #a52c2c;
+	border-color: #a52c2c;
 }
 #button3{
-	background-color: #87b78c;
+	background-color: #87b77c;
+	border-color: #87b78c;
+}
+#pytanie{
+	color: goldenrod;
+	font-size: 80px;
+}
+#choice{
+	height: 5px;
 }
 button:hover{
 	transition: 0.4s;
 	opacity: 1;
 	cursor: pointer;
+	-webkit-filter: brightness(125%);
+}
+#play{
+	width: 50px;
+	height: 50px;
+}
+#UJ{
+	width: 35%;
+	height: 35%;
+	float: right;
+}
+/*RESPONSIVNESS*/
+@media screen and (max-width: 1000px) {
+  #login{
+    font-size: 2vw;
+	height: 3.7vw;
+	width: 18vw;
+  }
+	button{
+		width: 150px;
+		background-color: goldenrod;
+		border-color: darkgoldenrod;
+		border-style: inset;
+		transition: 0.4s;
+		font-size: 13px;
+		border-radius: 15px 50px;
+}
+.game_mode_buttons{
+	 width: 80px;
+ }
+.playButton{
+	width: 100px;
+}
+#UJ{
+	float: none;
+}
+#gameboard p{
+	font-size: 20px;
 }
