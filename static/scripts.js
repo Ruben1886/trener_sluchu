@@ -8,13 +8,12 @@ function ajax(object){
         data:JSON.stringify(object),
         success: function()
         {
-        	 /*ODSWIEZENIE Game_boardu W PRZYPADKU SUCCESU*/
+        	 /*ODSWIEZENIE game_boardu W PRZYPADKU SUCCESU*/
         	 $('#load').load('/' + ' #load');
 			 /*ODSWIEZENIE PASKA LOGOWANIA */
 			 $('#load_login').load('/' + ' #load_login');
-
 			 $('.resize').load('/' + ' .resize');
-			 console.log(object);
+			 console.log("succes");
         },
         error: function(err, s , exception)
         {
