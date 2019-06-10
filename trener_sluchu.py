@@ -42,9 +42,7 @@ def start():
         session['uid'] = random.randint(0, 1000)
         session['username'] = None
 
-
     if request.get_json() is not None:
-        session['test'] = request.get_json()
         session['sprawdzenie'] = 'Wybierz odpowiedź!' #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO DZIALANIACH UZYTKOWNIKA
         #WYBÓR TRYBU GRY
         if request.get_json().get('game_mode') is not None:
