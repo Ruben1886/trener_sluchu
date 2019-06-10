@@ -1,26 +1,4 @@
-//AJAX I JEGO FUNKCJE WYSYLAJĄCE:
-function ajax(object){
-    $.ajax({
-        url: '/', /*W KTOREJ SCIEZCE ROUTOWANIE TO ODBIERAMY*/
-        type: 'POST',
-        dataType:'text', /*JAKI TYP DANYCH JEST OCZEKIWANY*/
-        contentType: 'application/json',
-        data:JSON.stringify(object),
-        success: function()
-        {
-        	 /*ODSWIEZENIE game_boardu W PRZYPADKU SUCCESU*/
-        	 $('#load').load('/' + ' #load');
-			 /*ODSWIEZENIE PASKA LOGOWANIA */
-			 $('#load_login').load('/' + ' #load_login');
-			 $('.resize').load('/' + ' .resize');
-			 console.log("succes");
-        },
-        error: function(err, s , exception)
-        {
-             console.log(exception);
-        }
-    });
-}
+//FUNKCJE WYSYLAJĄCE DO AJAXA:
 function get_game_mode(x) {
 	ajax({game_mode: x});
 }

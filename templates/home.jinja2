@@ -14,9 +14,36 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/logo.png') }}"/>
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
+        <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
         <script src="{{ url_for('static', filename='jquery-3.4.1.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollify/1.0.19/jquery.scrollify.js" type="text/javascript"></script>
         <script src="{{ url_for('static', filename='scripts.js') }}" type="text/javascript"></script>
+        <!--AJAX-->
+        <script type="text/javascript">
+            function ajax(object){
+                $.ajax({
+                    url: "{{url_for('start')}}", /*W KTOREJ SCIEZCE ROUTOWANIE TO ODBIERAMY*/
+                    type: 'POST',
+                    dataType:'text', /*JAKI TYP DANYCH JEST OCZEKIWANY*/
+                    contentType: 'application/json',
+                    data:JSON.stringify(object),
+                    success: function()
+                    {
+                         /*ODSWIEZENIE game_boardu W PRZYPADKU SUCCESU*/
+                         $('#load').load('{{url_for('start')}}' + ' #load');
+                         /*ODSWIEZENIE PASKA LOGOWANIA */
+                         $('#load_login').load('{{url_for('start')}}' + ' #load_login');
+                        /*ZMIANA ROZMIARU DIVA W KTÓRYM JEST GAMEBOARD BO ZMIANIE ROZMIARU GAMEBOARDU (RESPONSYWNOŚĆ)*/
+                         $('.resize').load('{{url_for('start')}}' + ' .resize');
+                         console.log("SUKCES:" + "{{url_for('start')}}");
+                    },
+                    error: function(err, s , exception)
+                    {
+                         console.log(exception);
+                    }
+                });
+            }
+        </script>
 
         <title>Trener słuchu relatywnego</title>
 	</head>
@@ -48,9 +75,16 @@
                         <p><img src="{{ url_for('static', filename='images/arrow.png') }}" alt="Play" width="250" height="250"></p>
                     </div>
                 </div>
+
             </div>
 
             <div class="section" id="game">
+                <p>ROOT: {{ request.script_root|tojson|safe }}</p>
+                {% if session['test'] %}
+                    <p>JEST REQUEST: {{ session['test'] }}</p>
+                {% else %}
+                    <p>NIE MA REQUESTU</p>
+                {% endif %}
                 <div class="box">
                         <h1>TRENING</h1>
                         <hr>

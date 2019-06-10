@@ -32,6 +32,8 @@ class Uzytkownik(db.Model):
                                                 self.interwalyStatBled, self.akordyStatPopr, self.akordyStatBled)
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/16_walasik/trener_sluchu', methods=['GET', 'POST'])
+@app.route('/16_walasik/trener_sluchu/', methods=['GET', 'POST'])
 def start():
     #INICJOWANIE SESJI
     if session:
@@ -40,7 +42,9 @@ def start():
         session['uid'] = random.randint(0, 1000)
         session['username'] = None
 
+
     if request.get_json() is not None:
+        session['test'] = request.get_json()
         session['sprawdzenie'] = 'Wybierz odpowiedź!' #USTAWIENIE ODPOWIEDZI SERWERA NA NONE ABY NIE ZOSTAWALA PO DZIALANIACH UZYTKOWNIKA
         #WYBÓR TRYBU GRY
         if request.get_json().get('game_mode') is not None:
@@ -198,4 +202,4 @@ def log():
     return render_template("login.jinja2", error=error)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=False, host='0.0.0.0', port=55101)
