@@ -155,7 +155,7 @@ button{
 	color: goldenrod;
 	font-size: 80px;
 }
-#choice{
+.choice{
 	height: 25px;
 }
 button:hover{

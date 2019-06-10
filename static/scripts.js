@@ -9,16 +9,19 @@ function ajax(object){
         success: function()
         {
         	 /*ODSWIEZENIE Game_boardu W PRZYPADKU SUCCESU*/
-        	 $('#load').load('/' + ' #load');
+        	 $('#load').load('/' + ' #load', function() {
+  				succes:
+        	 	alert( "Load was performed." );
+			});
 			 /*ODSWIEZENIE PASKA LOGOWANIA */
 			 $('#load_login').load('/' + ' #load_login');
 
 			 $('.resize').load('/' + ' .resize');
-            console.log(object);
+			 console.log(object);
         },
         error: function(err, s , exception)
         {
-            console.log(exception);
+             console.log(exception);
         }
     });
 }
