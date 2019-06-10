@@ -1,6 +1,6 @@
 Flask==0.12.2
 SQLALchemy==1.2.6
-Jinja==2.10
+Jinja2==2.10
 Werkzeug==0.14.1
 gevent
 gunicorn
