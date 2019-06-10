@@ -9,7 +9,7 @@ function ajax(object){
         success: function()
         {
         	 /*ODSWIEZENIE Game_boardu W PRZYPADKU SUCCESU*/
-        	 $('#load').load('/' + ' #load')
+        	 $('#load').load('/' + ' #load');
 			 /*ODSWIEZENIE PASKA LOGOWANIA */
 			 $('#load_login').load('/' + ' #load_login');
 
