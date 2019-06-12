@@ -9,7 +9,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '195ca1ceb0d831fe4d0140d7d3d0935b'
 
 #KONFIGURACJA BAZY DANYCH SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///stat.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///stat.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/stat.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -32,8 +33,6 @@ class Uzytkownik(db.Model):
                                                 self.interwalyStatBled, self.akordyStatPopr, self.akordyStatBled)
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/16_walasik/trener_sluchu', methods=['GET', 'POST'])
-@app.route('/16_walasik/trener_sluchu/', methods=['GET', 'POST'])
 def start():
     #INICJOWANIE SESJI
     if session:
